@@ -1,0 +1,6 @@
+{
+  "name": "DFL Empréstimo Consignado",
+  "description": "Premium, modern, and rapid landing page for DFL Empréstimo Consignado. Simulate INSS, FGTS, or Public Servant credit with unbeatable rates and direct WhatsApp confirmation.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

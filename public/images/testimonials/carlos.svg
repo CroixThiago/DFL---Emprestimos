@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
+  <circle cx="50" cy="50" r="50" fill="#1E293B" />
+  <circle cx="50" cy="45" r="21" fill="#F3D1B5" />
+  <!-- Hair: short brown/graying -->
+  <path d="M29 38 C32 25 68 25 71 38 C74 42 68 34 50 34 C32 34 26 42 29 38 Z" fill="#4B5563" />
+  <!-- Glasses -->
+  <rect x="35" y="41" width="12" height="8" rx="2" stroke="#E8C670" stroke-width="2.5" fill="none" />
+  <rect x="53" y="41" width="12" height="8" rx="2" stroke="#E8C670" stroke-width="2.5" fill="none" />
+  <line x1="47" y1="45" x2="53" y2="45" stroke="#E8C670" stroke-width="2.5" />
+  <!-- Smile -->
+  <path d="M43 56 Q50 61 57 56" stroke="#120822" stroke-width="2.5" stroke-linecap="round" fill="none" />
+  <!-- Beard / mustache -->
+  <path d="M40 58 Q50 66 60 58 L57 63 Q50 68 43 63 Z" fill="#4B5563" />
+  <!-- Body/shirt: Green/teal -->
+  <path d="M20 90 C20 72 32 68 50 68 C68 68 80 72 80 90 Z" fill="#0D9488" />
+  <path d="M45 68 C45 74 55 74 55 68 Z" fill="#F3D1B5" />
+</svg>

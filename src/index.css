@@ -1,0 +1,37 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Playfair Display", Georgia, serif;
+  
+  --color-brand-purple: #4C2A7A;
+  --color-brand-purple-light: #6B4A9E;
+  --color-brand-gold: #C9A14A;
+  --color-brand-gold-accent: #E8C670;
+  --color-brand-bg: #F8F6F2; /* Warm, secure premium cream background */
+  --color-brand-card: #FFFFFF; /* Perfect clean white for high-contrast cards */
+  --color-brand-card-hover: #FBF9F5; /* Soft transition hover */
+  --color-brand-border: #E5DFD3; /* Crisp, readable border */
+  --color-brand-border-purple: #D0C6E0; /* Soft warm purple line */
+  --color-brand-dark: #120822; /* High-contrast ultra-dark royal purple (almost black, superb WCAG AAA contrast) */
+  --color-brand-gray: #3B3545; /* Rich graphite-charcoal supporting text for maximum legibility */
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    font-family: var(--font-sans);
+    background-color: var(--color-brand-bg);
+    color: var(--color-brand-dark);
+  }
+  section[id], div[id] {
+    scroll-margin-top: 95px;
+  }
+}
+
+/* Custom smooth transitions */
+.transition-all-300 {
+  transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
