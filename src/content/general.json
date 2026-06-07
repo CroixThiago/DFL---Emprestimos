@@ -1,0 +1,89 @@
+{
+  "brandName": "DFL CONSIGNADO",
+  "phone": "(11) 93455-4478",
+  "phoneRaw": "5511934554478",
+  "email": "contato@dflemprestimos.com.br",
+  "hero": {
+    "badge": "Correspondente Autorizado Oficial • São Paulo e Região",
+    "titleLine1": "Empréstimo Consignado",
+    "titleLine2": "seguro, rápido",
+    "titleLine3": "e transparente",
+    "description": "Dinheiro seguro na sua conta com as menores taxas do mercado, atendimento com respeito e sem qualquer complicação. Atendemos aposentados e pensionistas do INSS, servidores públicos e liberação de saldo do FGTS.",
+    "ctaText": "Simular Agora Grátis",
+    "ctaWhatsappText": "Fale pelo WhatsApp",
+    "trustBullet1": "Simulação 100% gratuita",
+    "trustBullet2": "Sem qualquer taxa antecipada",
+    "whatsappLeadMsg": "Olá, DFL Consignado! Gostaria de conversar com um especialista sobre as melhores propostas de crédito para mim."
+  },
+  "benefitsSection": {
+    "badge": "Credibilidade & Transparência",
+    "title": "Por que milhares de pessoas confiam na DFL",
+    "subtitle": "Focados em entregar excelência no consignado de forma rápida e segura, mantendo o respeito e a clareza em cada atendimento."
+  },
+  "servicesSection": {
+    "badge": "Soluções Sob Medida",
+    "title": "O que podemos fazer por você",
+    "subtitle": "Escolha a opção ideal para as suas necessidades de crédito e resolva a sua simulação em poucos cliques."
+  },
+  "workflowSection": {
+    "badge": "Sem Complicação",
+    "title": "Simples assim. Em 4 passos:",
+    "subtitle": "Desenvolvemos um fluxo transparente e intuitivo para que o seu crédito consignado aconteça sem dor de cabeça."
+  },
+  "statsSection": {
+    "stat1_num": "+20 Mil",
+    "stat1_label": "Clientes atendidos com satisfação",
+    "stat2_num": "5.0",
+    "stat2_label": "Avaliação do público no Google",
+    "stat3_num": "100%",
+    "stat3_label": "Segurança sob regras do Banco Central",
+    "stat4_num": "Desde 2018",
+    "stat4_label": "Atendimento humanizado e confiável"
+  },
+  "testimonialsSection": {
+    "badge": "Quem Concluiu Recomenda",
+    "title": "O que nossos clientes estão dizendo",
+    "subtitle": "Nossa melhor publicidade é o depoimento sincero de quem obteve as menores taxas reais com comodidade e agilidade."
+  },
+  "partnersSection": {
+    "badge": "Principais Parceiros",
+    "title": "Trabalhamos em parceria com os maiores bancos do Brasil"
+  },
+  "faqSection": {
+    "badge": "Suas Dúvidas Respondidas",
+    "title": "Perguntas Frequentes",
+    "subtitle": "Ainda tem dúvidas? Veja as respostas para as perguntas mais comuns de nossos clientes."
+  },
+  "ctaSection": {
+    "title": "Pronto para dar o próximo passo com segurança?",
+    "description": "Não perca mais tempo pagando juros altos de cheque especial ou cartões comuns. Faça agora uma simulação gratuita e descubra quanto você pode economizar de verdade.",
+    "btnText": "Simular Agora Grátis",
+    "btnWhatsapp": "Falar pelo WhatsApp",
+    "secureInfo": "Conexão segura SSL de ponta a ponta"
+  },
+  "footerSection": {
+    "description": "Empréstimo com segurança, rapidez e as melhores condições do mercado. Correspondente bancário certificado, atuando desde 2018 com foco no atendimento humano.",
+    "badge_authorized": "Correspondente Autorizado",
+    "contact_title": "Fale Conosco",
+    "contact_whatsapp_label": "WhatsApp Oficial:",
+    "contact_schedule_label": "Horários de Atendimento:",
+    "schedule_weekdays": "Segunda a Sexta: 08h às 18h",
+    "schedule_saturdays": "Sábados: 08h às 12h",
+    "address_title": "Endereço Físico",
+    "address_line1": "Rua das Flores, 123 – Sala 45",
+    "address_line2": "Centro – São Paulo / SP",
+    "address_line3": "CEP: 01000-000",
+    "warning_note": "*A DFL preza por total segurança. Não solicitamos nenhum tipo de pagamento antecipado ou taxas de avalista para aprovação ou liberação de seu crédito consignado.",
+    "copyright": "© 2026 DFL Empréstimo Consignado. Todos os direitos reservados. CNPJ: 00.000.000/0001-00.",
+    "privacy_policy": "Política de Privacidade",
+    "terms": "Termos de Uso"
+  },
+  "agentToast": {
+    "tag": "Atendimento Online",
+    "name": "Mariana - Consultora DFL",
+    "message": "Olá! Vi que você está interessado pelo crédito consignado. Gostaria de receber uma análise de simulação personalizada sem compromisso pelo WhatsApp?",
+    "btnWhatsapp": "Simular no WhatsApp grátis",
+    "btnDismiss": "Não, prefiro continuar navegando",
+    "lead_msg": "Olá Mariana, gostaria de fazer uma análise de simulação personalizada para o meu benefício."
+  }
+}

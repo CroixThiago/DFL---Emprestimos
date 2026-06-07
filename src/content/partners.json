@@ -1,0 +1,32 @@
+[
+  {
+    "id": "caixa",
+    "name": "Caixa Econômica",
+    "logo": "/images/partners/caixa.svg"
+  },
+  {
+    "id": "bb",
+    "name": "Banco do Brasil",
+    "logo": "/images/partners/bb.svg"
+  },
+  {
+    "id": "itau",
+    "name": "Itaú",
+    "logo": "/images/partners/itau.svg"
+  },
+  {
+    "id": "bradesco",
+    "name": "Bradesco",
+    "logo": "/images/partners/bradesco.svg"
+  },
+  {
+    "id": "santander",
+    "name": "Santander",
+    "logo": "/images/partners/santander.svg"
+  },
+  {
+    "id": "bmg",
+    "name": "Banco BMG",
+    "logo": "/images/partners/bmg.svg"
+  }
+]

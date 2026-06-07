@@ -1,0 +1,27 @@
+[
+  {
+    "title": "Segurança em Primeiro Lugar",
+    "description": "Seu dinheiro protegido e processo 100% seguro. Trabalhamos apenas com os maiores e mais sólidos bancos do Brasil.",
+    "iconName": "ShieldCheck"
+  },
+  {
+    "title": "Dinheiro Rápido na Conta",
+    "description": "Aprovação em até 48 horas após o envio dos documentos necessários. Muitos dos nossos parceiros pagam em menos de 24 horas.",
+    "iconName": "Zap"
+  },
+  {
+    "title": "Melhores Taxas do Mercado",
+    "description": "As menores taxas de juros reais para consignado do INSS, portabilidade e servidores públicos. Sem surpresas ou taxas escondidas.",
+    "iconName": "TrendingDown"
+  },
+  {
+    "title": "Atendimento Humanizado",
+    "description": "Falamos a sua língua, de forma simples e acolhedora. Aqui você fala com pessoas de verdade, sem robôs cansativos.",
+    "iconName": "HeartHandshake"
+  },
+  {
+    "title": "Sem Burocracia",
+    "description": "Processo digital simplificado e totalmente transparente. Menos papelada e muito mais agilidade para o seu dia a dia.",
+    "iconName": "FileCheck2"
+  }
+]

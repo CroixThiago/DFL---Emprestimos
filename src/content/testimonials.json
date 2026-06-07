@@ -1,0 +1,38 @@
+[
+  {
+    "id": "1",
+    "name": "Dona Maria do Carmo, 62 anos",
+    "role": "Aposentada do INSS",
+    "location": "Penha, São Paulo / SP",
+    "comment": "Fui muito bem atendida, com muito carinho e paciência pelo WhatsApp. Me explicaram tudo sobre as taxas sem palavras difíceis e o dinheiro caiu na minha conta no dia seguinte. Estava com medo de golpes na internet, mas a DFL é muito segura e séria!",
+    "rating": 5,
+    "avatarUrl": "/images/testimonials/maria.svg"
+  },
+  {
+    "id": "2",
+    "name": "Dona Sandra Lima, 58 anos",
+    "role": "Pensionista do INSS",
+    "location": "São Bernardo do Campo / SP",
+    "comment": "O que eu mais gostei foi a rapidez e o respeito. O consultor da DFL fez a simulação comigo passo a passo, me mostrou as taxas reais das parcelas e tudo foi feito pelo meu celular mesmo, sem precisar ir ao banco pegar filas. Nota 10!",
+    "rating": 5,
+    "avatarUrl": "/images/testimonials/sandra.svg"
+  },
+  {
+    "id": "3",
+    "name": "Seu Carlos Eduardo, 52 anos",
+    "role": "Servidor Público Estadual",
+    "location": "Osasco / SP",
+    "comment": "Fiz o refinanciamento do meu consignado e reduzi bastante o valor da parcela mensal, sobrando um troco ótimo que usei para reformar a cozinha de casa. Atendimento excelente, sério e transparente.",
+    "rating": 5,
+    "avatarUrl": "/images/testimonials/carlos.svg"
+  },
+  {
+    "id": "4",
+    "name": "Seu João Pereira, 65 anos",
+    "role": "Aposentado e Ex-Professor",
+    "location": "Guarulhos / SP",
+    "comment": "Procurava uma empresa segura de verdade perto de São Paulo. A DFL me passou muita confiança, confirmaram todos os dados direto com as maiores instituições parceiras do governo e liberaram o crédito com rapidez.",
+    "rating": 5,
+    "avatarUrl": "/images/testimonials/joao.svg"
+  }
+]

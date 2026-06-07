@@ -1,0 +1,32 @@
+[
+  {
+    "id": "inss",
+    "title": "Consignado INSS",
+    "description": "Empréstimo direcionado para aposentados e pensionistas do INSS com as melhores condições e descontos diretos em folha.",
+    "iconName": "Users"
+  },
+  {
+    "id": "servidor",
+    "title": "Consignado Servidor Público",
+    "description": "Crédito especial para servidores das esferas municipal, estadual e federal, além de pensionistas públicos com tarifas de juros reduzidas.",
+    "iconName": "Briefcase"
+  },
+  {
+    "id": "portabilidade",
+    "title": "Portabilidade de Crédito",
+    "description": "Transfira sua dívida de consignado existente para a DFL com juros menores e diminua o valor da sua parcela mensal agora.",
+    "iconName": "ArrowRightLeft"
+  },
+  {
+    "id": "refinanciamento",
+    "title": "Refinanciamento Consignado",
+    "description": "Aproveite a margem já quitada do seu contrato ativo para liberar dinheiro novo no bolso e reajustar o prazo de pagamento.",
+    "iconName": "RefreshCw"
+  },
+  {
+    "id": "fgts",
+    "title": "Saque FGTS",
+    "description": "Antecipe os saldos anuais de seu Saque-Aniversário do FGTS de forma rápida, segura, sem comprometer seu orçamento mensal.",
+    "iconName": "Coins"
+  }
+]

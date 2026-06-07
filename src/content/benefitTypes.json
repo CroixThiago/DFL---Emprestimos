@@ -1,0 +1,37 @@
+[
+  {
+    "id": "inss",
+    "name": "Consignado INSS (Aposentado/Pensionista)",
+    "minRate": 1.66,
+    "maxMonths": 84,
+    "description": "Para aposentados e pensionistas do INSS com desconto direto na folha de pagamento."
+  },
+  {
+    "id": "servidor",
+    "name": "Servidor Público (Federal/Estadual/Municipal)",
+    "minRate": 1.50,
+    "maxMonths": 96,
+    "description": "Crédito especial para funcionários públicos ativos, inativos ou pensionistas."
+  },
+  {
+    "id": "portabilidade",
+    "name": "Portabilidade de Crédito",
+    "minRate": 1.60,
+    "maxMonths": 84,
+    "description": "Traga sua dívida cara de outro banco ou instituição e reduza suas parcelas hoje."
+  },
+  {
+    "id": "refinanciamento",
+    "name": "Refinanciamento Consignado",
+    "minRate": 1.68,
+    "maxMonths": 84,
+    "description": "Renove seu empréstimo atual com melhores condições e receba um troco na conta."
+  },
+  {
+    "id": "fgts",
+    "name": "Saque de Aniversário FGTS",
+    "minRate": 1.80,
+    "maxMonths": 12,
+    "description": "Antecipe até 12 parcelas do seu Saque-Aniversário do FGTS sem parcelas mensais."
+  }
+]

@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { motion } from "motion/react";
+import { useState, useEffect } from "react";
+import { motion, useScroll, useTransform, AnimatePresence } from "motion/react";
 import { 
   ShieldCheck, 
   Zap, 
@@ -13,7 +13,8 @@ import {
   Lock,
   Award,
   Clock,
-  Star
+  Star,
+  X
 } from "lucide-react";
 import { CORE_BENEFITS, SERVICES, WORKFLOW_STEPS, PARTNERS } from "./data";
 import Header from "./components/Header";
@@ -23,9 +24,35 @@ import FAQAccordion from "./components/FAQAccordion";
 import TestimonialsSection from "./components/TestimonialsSection";
 import IconResolver from "./components/IconResolver";
 import InteractiveCalculator from "./components/InteractiveCalculator";
+import ServicesCarousel from "./components/ServicesCarousel";
 
 export default function App() {
   const [selectedSimType, setSelectedSimType] = useState("inss");
+  const [isMobile, setIsMobile] = useState(false);
+  const [showFloatingToast, setShowFloatingToast] = useState(false);
+
+  useEffect(() => {
+    const checkDim = () => {
+      setIsMobile(window.innerWidth < 1024);
+    };
+    checkDim();
+    window.addEventListener("resize", checkDim);
+    return () => window.removeEventListener("resize", checkDim);
+  }, []);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      const dismissed = sessionStorage.getItem("dfl-toast-dismissed");
+      if (!dismissed) {
+        setShowFloatingToast(true);
+      }
+    }, 5000);
+    return () => clearTimeout(timer);
+  }, []);
+
+  const { scrollY } = useScroll();
+  const yHeroContent = useTransform(scrollY, [0, 500], [0, isMobile ? 0 : 80]);
+  const opacityHeroContent = useTransform(scrollY, [0, 450], [1, isMobile ? 1 : 0.45]);
 
   const scrollToSimulation = (benefitId: string) => {
     setSelectedSimType(benefitId);
@@ -48,7 +75,7 @@ export default function App() {
       <Header />
 
       {/* Hero Section */}
-      <section className="relative min-h-[92vh] lg:min-h-screen flex items-center justify-center pt-28 pb-16 px-4 md:px-8 bg-gradient-to-br from-[#1C0B32] via-[#2D164B] to-[#120822] overflow-hidden border-b border-brand-border">
+      <section className="relative min-h-[92vh] lg:min-h-screen flex items-center justify-center pt-24 pb-12 sm:pt-28 sm:pb-16 px-4 md:px-8 bg-gradient-to-br from-[#1C0B32] via-[#2D164B] to-[#120822] overflow-hidden border-b border-brand-border">
         {/* Animated geometric background particles filling the full parent container */}
         <HeroCanvas />
 
@@ -59,7 +86,10 @@ export default function App() {
         <div className="w-full max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center relative z-10">
           
           {/* Hero Left Content */}
-          <div className="lg:col-span-7 flex flex-col items-start text-white text-left">
+          <motion.div
+            style={{ y: yHeroContent, opacity: opacityHeroContent }}
+            className="lg:col-span-7 flex flex-col items-start text-white text-left"
+          >
             <motion.div
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
@@ -103,14 +133,14 @@ export default function App() {
                   e.preventDefault();
                   scrollToSimulation("inss");
                 }}
-                className="px-8 py-4.5 bg-brand-gold hover:bg-brand-gold-accent text-brand-dark font-black text-xs sm:text-sm tracking-widest uppercase rounded-xl shadow-lg transition-all duration-300 text-center flex items-center justify-center gap-2 cursor-pointer"
+                className="px-8 py-4.5 bg-[#E8C670] hover:bg-[#D4A13A] text-[#120822] font-black text-xs sm:text-sm tracking-widest uppercase rounded-xl border border-yellow-200/25 shadow-[0_8px_24px_rgba(232,198,112,0.3)] hover:scale-102 active:scale-98 transition-all duration-300 text-center flex items-center justify-center gap-2 cursor-pointer"
               >
                 Simular Agora Grátis
               </a>
 
               <button
                 onClick={handleWhatsappDirect}
-                className="px-8 py-4.5 bg-emerald-600 hover:bg-emerald-700 text-white font-black text-xs sm:text-sm tracking-widest uppercase rounded-xl shadow-lg border border-emerald-500/10 hover:shadow-xl transition-all duration-300 text-center flex items-center justify-center gap-2 cursor-pointer"
+                className="px-8 py-4.5 bg-emerald-700 hover:bg-emerald-800 text-white font-black text-xs sm:text-sm tracking-widest uppercase rounded-xl border border-emerald-500/25 shadow-[0_8px_24px_rgba(16,185,129,0.3)] hover:scale-102 active:scale-98 transition-all duration-300 text-center flex items-center justify-center gap-2 cursor-pointer"
               >
                 <Phone size={18} className="text-white" />
                 Fale pelo WhatsApp
@@ -139,10 +169,10 @@ export default function App() {
                 <span>Contato: <strong className="text-white hover:underline">(11) 93455-4478</strong></span>
               </div>
             </motion.div>
-          </div>
+          </motion.div>
 
           {/* Hero Right Calculator Mockup */}
-          <div className="lg:col-span-5 w-full">
+          <div className="lg:col-span-5 w-full max-w-xl mx-auto lg:max-w-none">
             <motion.div
               initial={{ opacity: 0, scale: 0.96 }}
               animate={{ opacity: 1, scale: 1 }}
@@ -157,10 +187,16 @@ export default function App() {
       </section>
 
       {/* Core Benefits Section */}
-      <section className="py-20 bg-brand-bg px-4 md:px-8 border-b border-brand-border" id="por-que-dfl">
+      <section className="py-12 md:py-20 bg-brand-bg px-4 md:px-8 border-b border-brand-border" id="por-que-dfl">
         <div className="max-w-7xl mx-auto">
           
-          <div className="text-center max-w-3xl mx-auto mb-16">
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.6 }}
+            className="text-center max-w-3xl mx-auto mb-16"
+          >
             <h2 className="text-xs uppercase font-extrabold tracking-widest text-brand-purple mb-3">
               Credibilidade & Transparência
             </h2>
@@ -170,13 +206,20 @@ export default function App() {
             <p className="text-brand-gray text-base sm:text-lg mt-4 leading-relaxed font-medium">
               Focados em entregar excelência no consignado de forma rápida e segura, mantendo o respeito e a clareza em cada atendimento.
             </p>
-          </div>
+          </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8" id="core-benefits-grid">
             {CORE_BENEFITS.map((benefit, i) => (
-              <div
+              <motion.div
                 key={i}
-                className="bg-brand-card border border-brand-border rounded-2xl p-6 lg:p-8 shadow-sm hover:border-brand-border-purple hover:bg-brand-card-hover hover:shadow-md transition-all duration-300 flex flex-col items-start group"
+                id={`benefit-card-${i}`}
+                initial={{ opacity: 0, y: 25 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{ duration: 0.5, delay: i * 0.1 }}
+                className={`bg-brand-card border border-brand-border rounded-xl p-6 lg:p-8 shadow-sm hover:border-brand-border-purple hover:bg-brand-card-hover hover:shadow-md transition-all duration-300 flex flex-col items-start group ${
+                  i === 4 ? "sm:col-span-2 lg:col-span-1" : ""
+                }`}
               >
                 <div className="w-12 h-12 rounded-xl bg-brand-purple/5 border border-brand-border-purple/40 flex items-center justify-center text-brand-purple mb-6 group-hover:bg-brand-purple group-hover:text-white transition-all duration-300">
                   <IconResolver name={benefit.iconName} size={24} />
@@ -187,7 +230,7 @@ export default function App() {
                 <p className="text-brand-gray text-sm sm:text-[15px] leading-relaxed">
                   {benefit.description}
                 </p>
-              </div>
+              </motion.div>
             ))}
           </div>
 
@@ -195,10 +238,16 @@ export default function App() {
       </section>
 
       {/* Services Grid Section */}
-      <section className="py-20 bg-brand-bg px-4 md:px-8 border-b border-brand-border" id="servicos">
+      <section className="py-12 md:py-20 bg-brand-bg px-4 md:px-8 border-b border-brand-border" id="servicos">
         <div className="max-w-7xl mx-auto">
 
-          <div className="text-center max-w-3xl mx-auto mb-16">
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.6 }}
+            className="text-center max-w-3xl mx-auto mb-16"
+          >
             <h2 className="text-xs uppercase font-extrabold tracking-widest text-brand-purple mb-3">
               Soluções Sob Medida
             </h2>
@@ -208,36 +257,9 @@ export default function App() {
             <p className="text-brand-gray text-base mt-3 font-medium">
               Escolha a opção ideal para as suas necessidades de crédito e resolva a sua simulação em poucos cliques.
             </p>
-          </div>
+          </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 justify-items-center">
-            {SERVICES.map((service) => (
-              <div
-                key={service.id}
-                className="bg-brand-card hover:bg-brand-card-hover border border-brand-border rounded-2xl p-6 lg:p-8 flex flex-col justify-between items-start w-full group transition-all duration-300 hover:border-brand-border-purple hover:shadow-md"
-              >
-                <div className="w-full">
-                  <div className="w-12 h-12 rounded-xl bg-brand-purple/5 border border-brand-border-purple/30 flex items-center justify-center text-brand-purple mb-6 shadow-xs group-hover:bg-brand-purple group-hover:text-white transition-all duration-300">
-                    <IconResolver name={service.iconName} size={24} />
-                  </div>
-                  <h4 className="font-serif text-lg sm:text-xl font-bold text-brand-dark mb-3">
-                    {service.title}
-                  </h4>
-                  <p className="text-brand-gray text-sm sm:text-base leading-relaxed mb-6 font-normal">
-                    {service.description}
-                  </p>
-                </div>
-
-                <button
-                  onClick={() => scrollToSimulation(service.id)}
-                  className="inline-flex items-center gap-2 text-xs font-bold text-brand-purple hover:text-brand-purple-light uppercase tracking-wider transition-colors cursor-pointer group-hover:translate-x-1 duration-200"
-                >
-                  <span>Quero saber mais</span>
-                  <ArrowRight size={14} className="text-brand-purple" />
-                </button>
-              </div>
-            ))}
-          </div>
+          <ServicesCarousel onSelectService={scrollToSimulation} />
 
         </div>
       </section>
@@ -246,10 +268,16 @@ export default function App() {
       <InteractiveCalculator />
 
       {/* Workflow Section (How It Works) */}
-      <section className="py-20 bg-brand-bg px-4 md:px-8 border-b border-brand-border" id="como-funciona">
+      <section className="py-12 md:py-20 bg-brand-bg px-4 md:px-8 border-b border-brand-border" id="como-funciona">
         <div className="max-w-7xl mx-auto">
           
-          <div className="text-center max-w-3xl mx-auto mb-16">
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.6 }}
+            className="text-center max-w-3xl mx-auto mb-16"
+          >
             <h2 className="text-xs uppercase font-extrabold tracking-widest text-brand-purple mb-3">
               Sem Complicação
             </h2>
@@ -259,11 +287,19 @@ export default function App() {
             <p className="text-brand-gray text-base mt-2.5 font-medium">
               Desenvolvemos um fluxo transparente e intuitivo para que o seu crédito consignado aconteça sem dor de cabeça.
             </p>
-          </div>
+          </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8" id="workflow-steps-grid">
             {WORKFLOW_STEPS.map((step, idx) => (
-              <div key={idx} className="relative flex flex-col items-start bg-brand-card p-6 rounded-2xl border border-brand-border shadow-sm">
+              <motion.div 
+                key={idx}
+                id={`workflow-step-${idx}`}
+                initial={{ opacity: 0, y: 25 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{ duration: 0.5, delay: idx * 0.12 }}
+                className="relative flex flex-col items-start bg-brand-card p-6 rounded-2xl border border-brand-border shadow-sm flex-1 group hover:border-brand-border-purple/50 transition-all duration-300"
+              >
                 
                 {/* Luxurious step number display */}
                 <div className="font-serif text-4xl lg:text-5xl font-black text-brand-purple/20 mb-4 leading-none">
@@ -279,11 +315,11 @@ export default function App() {
 
                 {/* Desktop indicator link bubbles */}
                 {idx < 3 && (
-                  <div className="hidden lg:block absolute top-12 -right-6 text-brand-purple">
+                  <div className="hidden lg:block absolute top-[43%] -right-6 text-brand-purple z-10">
                     <ArrowRight size={18} />
                   </div>
                 )}
-              </div>
+              </motion.div>
             ))}
           </div>
 
@@ -324,7 +360,7 @@ export default function App() {
       </section>
 
       {/* Testimonials Section */}
-      <section className="py-20 bg-brand-bg px-4 md:px-8 border-b border-brand-border" id="depoimentos">
+      <section className="py-12 md:py-20 bg-brand-bg px-4 md:px-8 border-b border-brand-border" id="depoimentos">
         <div className="max-w-7xl mx-auto">
           
           <div className="text-center max-w-3xl mx-auto mb-16">
@@ -345,8 +381,8 @@ export default function App() {
       </section>
 
       {/* Partner Banks Logos */}
-      <section className="py-16 bg-brand-bg px-4 md:px-8 border-b border-brand-border">
-        <div className="max-w-5xl mx-auto">
+      <section className="py-10 md:py-16 bg-brand-bg px-4 md:px-8 border-b border-brand-border overflow-hidden">
+        <div className="max-w-7xl mx-auto">
           <div className="text-center mb-10">
             <p className="text-xs uppercase font-extrabold tracking-widest text-brand-purple mb-2">
               Principais Parceiros
@@ -356,27 +392,43 @@ export default function App() {
             </h4>
           </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 sm:gap-6 items-center justify-items-center">
-            {PARTNERS.map((p) => (
-              <div
-                key={p.name}
-                className="px-4 py-4 bg-brand-card hover:bg-[#4C2A7A]/5 border border-brand-border rounded-xl text-center transition-all duration-300 w-full h-20 flex items-center justify-center opacity-85 hover:opacity-100 hover:scale-105 shadow-xs hover:border-brand-border-purple group cursor-pointer"
-                title={p.name}
-              >
-                <img
-                  src={p.logo}
-                  alt={p.name}
-                  referrerPolicy="no-referrer"
-                  className="max-h-10 max-w-full object-contain filter brightness-100 contrast-100 dark:brightness-110 duration-300"
-                />
-              </div>
-            ))}
+          <div className="relative w-full overflow-hidden flex items-center select-none">
+            {/* Elegant fade edges using overlay gradients */}
+            <div className="absolute top-0 left-0 bottom-0 w-20 sm:w-28 bg-gradient-to-r from-brand-bg to-transparent z-10 pointer-events-none" />
+            <div className="absolute top-0 right-0 bottom-0 w-20 sm:w-28 bg-gradient-to-l from-brand-bg to-transparent z-10 pointer-events-none" />
+            
+            <motion.div
+              className="flex shrink-0 gap-6 sm:gap-8 py-4 px-2"
+              animate={{ x: ["0%", "-50%"] }}
+              transition={{
+                ease: "linear",
+                duration: 25,
+                repeat: Infinity,
+              }}
+            >
+              {/* Duplicate list multiple times for seamless high-performance ticker */}
+              {[...PARTNERS, ...PARTNERS, ...PARTNERS, ...PARTNERS].map((p, idx) => (
+                <div
+                  key={`${p.name}-${idx}`}
+                  className="px-6 py-4 bg-brand-card hover:bg-[#4C2A7A]/5 border border-brand-border rounded-xl text-center transition-all duration-300 w-44 h-20 flex items-center justify-center opacity-85 hover:opacity-100 hover:scale-105 shadow-xs hover:border-brand-border-purple group cursor-pointer shrink-0"
+                  title={p.name}
+                >
+                  <img
+                    src={p.logo}
+                    alt={p.name}
+                    referrerPolicy="no-referrer"
+                    loading="lazy"
+                    className="max-h-10 max-w-full object-contain filter brightness-100 contrast-100 dark:brightness-110 duration-300"
+                  />
+                </div>
+              ))}
+            </motion.div>
           </div>
         </div>
       </section>
 
       {/* FAQs Section */}
-      <section className="py-20 bg-brand-bg px-4 md:px-8" id="faq">
+      <section className="py-12 md:py-20 bg-brand-bg px-4 md:px-8" id="faq">
         <div className="max-w-7xl mx-auto">
           
           <div className="text-center max-w-3xl mx-auto mb-16">
@@ -397,7 +449,7 @@ export default function App() {
       </section>
 
       {/* Strong Final CTA Section */}
-      <section className="relative py-24 bg-gradient-to-br from-[#4C2A7A] to-[#1C0B32] text-white overflow-hidden text-center px-4">
+      <section className="relative py-16 md:py-24 bg-gradient-to-br from-[#4C2A7A] to-[#1C0B32] text-white overflow-hidden text-center px-4">
         {/* Glow Effects */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full bg-brand-gold/10 blur-[150px] pointer-events-none" />
 
@@ -417,14 +469,14 @@ export default function App() {
                 e.preventDefault();
                 scrollToSimulation("inss");
               }}
-              className="px-8 py-4 bg-brand-gold hover:bg-[#b8913b] text-brand-dark font-black text-sm tracking-widest uppercase rounded-xl transition-all duration-300 shadow-lg text-center cursor-pointer"
+              className="px-8 py-4 bg-[#c0993f] hover:bg-[#a68132] text-brand-dark font-extrabold text-sm tracking-widest uppercase rounded-xl border border-yellow-300/20 shadow-[0_4px_16px_rgba(201,161,74,0.3)] hover:scale-102 active:scale-98 transition-all duration-300 text-center cursor-pointer"
             >
               Simular Agora Grátis
             </a>
 
             <button
               onClick={handleWhatsappDirect}
-              className="px-8 py-4 bg-emerald-600 hover:bg-emerald-700 text-white font-black text-xs sm:text-sm tracking-widest uppercase rounded-xl shadow-xl border border-emerald-500/10 hover:shadow-2xl transition-all duration-300 text-center flex items-center justify-center gap-2 cursor-pointer"
+              className="px-8 py-4 bg-emerald-700 hover:bg-emerald-800 text-white font-extrabold text-xs sm:text-sm tracking-widest uppercase rounded-xl shadow-[0_4px_16px_rgba(16,185,129,0.3)] border border-emerald-500/20 hover:scale-102 active:scale-98 transition-all duration-300 text-center flex items-center justify-center gap-2 cursor-pointer"
             >
               <Phone size={18} className="text-white" />
               Falar pelo WhatsApp
@@ -444,13 +496,14 @@ export default function App() {
           
           {/* Footer Logo & Brand info */}
           <div className="md:col-span-4 flex flex-col items-start">
-            <div className="flex items-center gap-2 mb-4">
-              <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-brand-purple to-brand-purple-light flex items-center justify-center text-brand-gold font-serif font-black border border-brand-border">
-                D
-              </div>
-              <span className="font-serif text-lg font-bold text-white tracking-tight">
-                DFL Consignado
-              </span>
+            <div className="flex items-center mb-4">
+              <img 
+                src="/images/logo.svg" 
+                alt="DFL Consignado Logo" 
+                referrerPolicy="no-referrer"
+                loading="lazy"
+                className="h-10 w-auto object-contain opacity-90 hover:opacity-100 transition-opacity"
+              />
             </div>
             <p className="text-sm text-stone-400 leading-relaxed mb-6">
               Empréstimo com segurança, rapidez e as melhores condições do mercado. Correspondente bancário certificado, atuando desde 2018 com foco no atendimento humano.
@@ -522,14 +575,99 @@ export default function App() {
         href="https://wa.me/5511934554478"
         target="_blank"
         rel="noopener noreferrer"
-        className="fixed bottom-6 right-6 z-40 bg-emerald-500 hover:bg-emerald-600 text-white w-14 h-14 rounded-full flex items-center justify-center shadow-2xl hover:scale-115 active:scale-95 transition-all duration-300 group"
-        aria-label="Contatar pelo WhatsApp"
+        id="floating-whatsapp-trigger"
+        className="fixed bottom-6 right-6 z-40 bg-emerald-800 hover:bg-emerald-950 text-white w-14 h-14 rounded-full flex items-center justify-center shadow-[0_4px_24px_rgba(0,0,0,0.6)] border-2 border-white/95 ring-4 ring-emerald-500/35 hover:scale-110 active:scale-90 transition-all duration-300 group focus:outline-none focus:ring-4 focus:ring-emerald-300"
+        aria-label="Contatar pelo WhatsApp seguro DFL"
       >
-        <span className="absolute inset-x-0 inset-y-0 rounded-full bg-emerald-500/30 animate-ping group-hover:animate-none" />
-        <svg className="w-7 h-7 fill-white relative z-10" viewBox="0 0 24 24">
+        <span className="absolute inset-x-0 inset-y-0 rounded-full bg-emerald-600/30 animate-ping group-hover:animate-none" />
+        <svg className="w-7 h-7 fill-white relative z-10" viewBox="0 0 24 24" id="floating-whatsapp-icon">
           <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.411.001 12.022.001c3.203.001 6.216 1.247 8.484 3.515 2.269 2.268 3.515 5.28 3.515 8.483 0 6.62-5.351 11.968-11.962 11.968-2.001-.001-3.966-.5-5.748-1.45L0 24zm6.59-4.846c1.6.95 3.188 1.449 4.825 1.451 5.436 0 9.86-4.37 9.864-9.752.002-2.607-1.01-5.059-2.85-6.899-1.84-1.841-4.29-2.853-6.899-2.854-5.438 0-9.861 4.37-9.865 9.753-.001 1.705.474 3.37 1.376 4.818l-.936 3.422 3.485-.911zM17.82 14.67c-.29-.145-1.72-.85-1.985-.948-.266-.097-.46-.145-.655.146-.194.29-.753.948-.92 1.14-.169.195-.337.218-.627.073-.29-.145-1.228-.452-2.34-1.444-.864-.772-1.448-1.724-1.618-2.015-.17-.29-.018-.448.128-.592.13-.13.29-.34.436-.51.145-.17.193-.29.29-.485.097-.195.048-.364-.025-.51-.072-.145-.655-1.578-.897-2.16-.236-.57-.497-.49-.655-.498-.154-.008-.33-.008-.507-.008-.177 0-.467.065-.71.33-.243.266-.928.907-.928 2.213s.95 2.565 1.08 2.74c.13.178 1.87 2.855 4.53 4.004.632.273 1.127.437 1.512.559.636.2 1.215.172 1.672.103.51-.077 1.58-.646 1.8-.1.22-.544.22-.1.146-.242s-.145-.266-.436-.412z"/>
         </svg>
       </a>
+
+      {/* Floating WhatsApp Toast Notification */}
+      <AnimatePresence>
+        {showFloatingToast && (
+          <motion.div
+            initial={{ opacity: 0, y: 80, scale: 0.9 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 50, scale: 0.95 }}
+            transition={{ type: "spring", stiffness: 260, damping: 25 }}
+            id="floating-whatsapp-toast"
+            className="fixed bottom-24 left-4 right-4 sm:left-auto sm:right-6 sm:max-w-sm bg-[#120822] border-2 border-brand-purple/50 rounded-2xl p-5 shadow-[0_12px_40px_rgba(0,0,0,0.65)] z-50 flex flex-col gap-3"
+          >
+            {/* Close button */}
+            <button
+              onClick={() => {
+                setShowFloatingToast(false);
+                sessionStorage.setItem("dfl-toast-dismissed", "true");
+              }}
+              id="close-toast-btn"
+              className="absolute top-3 right-3 text-stone-400 hover:text-white p-1 hover:bg-white/10 rounded-full transition-colors cursor-pointer"
+              aria-label="Fechar notificação"
+            >
+              <X size={16} />
+            </button>
+
+            {/* Header info / Avatar */}
+            <div className="flex items-center gap-3">
+              <div className="relative">
+                <img
+                   src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=120"
+                   alt="Mariana - Atendimento DFL"
+                   loading="lazy"
+                   id="toast-agent-avatar"
+                   className="w-11 h-11 rounded-full object-cover border-2 border-brand-purple"
+                   referrerPolicy="no-referrer"
+                />
+                <span className="absolute bottom-0 right-0 w-3.5 h-3.5 bg-emerald-500 border-2 border-[#120822] rounded-full animate-pulse" />
+              </div>
+              <div className="flex flex-col text-left">
+                <span className="text-[10px] text-[#E8C670] font-extrabold uppercase tracking-widest">
+                  Atendimento Online
+                </span>
+                <span className="text-white font-serif font-black text-sm">
+                  Mariana - Consultora DFL
+                </span>
+              </div>
+            </div>
+
+            {/* Message */}
+            <p className="text-stone-300 text-xs sm:text-sm font-medium leading-relaxed text-left">
+              Olá! Vi que você está interessado pelo crédito consignado. Gostaria de receber uma{" "}
+              <strong className="text-[#E8C670]">análise de simulação personalizada</strong> sem compromisso pelo WhatsApp?
+            </p>
+
+            {/* CTA action buttons */}
+            <div className="flex flex-col gap-2 mt-1">
+              <a
+                href="https://wa.me/5511934554478?text=Olá Mariana, gostaria de fazer uma análise de simulação personalizada para o meu benefício."
+                target="_blank"
+                rel="noopener noreferrer"
+                id="toast-whatsapp-link-btn"
+                onClick={() => {
+                  sessionStorage.setItem("dfl-toast-dismissed", "true");
+                  setShowFloatingToast(false);
+                }}
+                className="w-full py-2.5 bg-emerald-800 hover:bg-emerald-900 text-white font-extrabold text-xs tracking-widest uppercase rounded-lg border border-emerald-950/20 shadow-[0_4px_16px_rgba(16,185,129,0.35)] flex items-center justify-center gap-2 transition-all duration-300 text-center cursor-pointer hover:scale-101 active:scale-99 focus:outline-none focus:ring-2 focus:ring-emerald-400"
+              >
+                <Phone size={14} className="text-white animate-bounce" />
+                Simular no WhatsApp grátis
+              </a>
+              <button
+                id="toast-dismiss-nav-btn"
+                onClick={() => {
+                  setShowFloatingToast(false);
+                  sessionStorage.setItem("dfl-toast-dismissed", "true");
+                }}
+                className="text-stone-400 hover:text-white text-xs font-bold uppercase tracking-wider text-center py-1 cursor-pointer hover:underline focus:outline-none focus:ring-2 focus:ring-brand-purple rounded"
+              >
+                Não, prefiro continuar navegando
+              </button>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

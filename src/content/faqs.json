@@ -1,0 +1,27 @@
+[
+  {
+    "id": "faq-1",
+    "question": "Quem pode fazer empréstimo consignado?",
+    "answer": "Aposentados e pensionistas do INSS, servidores públicos ativos (federais, estaduais e municipais), aposentados ou pensionistas do setor de funcionalismo público. Também atendemos pessoas com saldo FGTS que queiram realizar a antecipação."
+  },
+  {
+    "id": "faq-2",
+    "question": "Quanto tempo leva para o dinheiro cair na conta?",
+    "answer": "Após a aprovação final e a assinatura eletrônica do seu contrato, o valor cai diretamente na sua conta corrente em até 48 horas úteis, com muitos de nossos clientes recebendo em menos de 24 horas."
+  },
+  {
+    "id": "faq-3",
+    "question": "É seguro fazer empréstimo com a DFL?",
+    "answer": "Totalmente seguro. Somos uma empresa consolidada no mercado, transparente, e atuamos como correspondente bancário oficial das maiores instituições financeiras do país, seguindo rigorosamente todas as regras do Banco Central e as diretrizes de proteção de dados (LGPD). Seus dados e seu contrato estão 100% protegidos."
+  },
+  {
+    "id": "faq-4",
+    "question": "Vocês fazem portabilidade de outro banco?",
+    "answer": "Sim! Se você já tem um empréstimo consignado em outro banco com parcelas altas ou taxas caras, podemos migrar a sua dívida para a DFL (portabilidade) para você reduzir o valor da sua parcela mensal ou receber um troco em dinheiro."
+  },
+  {
+    "id": "faq-5",
+    "question": "Preciso sair de casa para fazer o empréstimo?",
+    "answer": "Não, de jeito nenhum! Todo o nosso processo é digital e moderno. Você simula, conversa com nossos consultores de atendimento pelo WhatsApp, envia fotos digitais dos documentos necessários e assina o contrato no seu celular de onde estiver, com total conforto e bem-estar."
+  }
+]

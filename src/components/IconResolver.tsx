@@ -1,20 +1,18 @@
 import React from "react";
-import * as Icons from "lucide-react";
+import { AssetIcon } from "./AssetFactory";
 
 interface IconResolverProps {
   name: string;
   className?: string;
   size?: number;
+  id?: string;
+  alt?: string;
 }
 
-export default function IconResolver({ name, className = "", size = 24 }: IconResolverProps) {
-  // Safe resolver fallback
-  const SelectedIcon = (Icons as any)[name];
-
-  if (!SelectedIcon) {
-    // Elegant fallback icon
-    return <Icons.HelpCircle className={className} size={size} />;
-  }
-
-  return <SelectedIcon className={className} size={size} />;
+/**
+ * Backwards compatible IconResolver that delegates directly to the AssetIcon factory
+ */
+export default function IconResolver({ name, className = "", size = 24, id, alt }: IconResolverProps) {
+  return <AssetIcon name={name} className={className} size={size} id={id} alt={alt} />;
 }
+
