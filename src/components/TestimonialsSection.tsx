@@ -144,7 +144,7 @@ export default function TestimonialsSection() {
                   {current.name}
                 </h4>
                 <p className="text-xs text-brand-gray font-semibold font-sans mt-0.5">
-                  {current.role} • <span className="text-brand-purple font-black">{current.location}</span>
+                  {current.role} • <span className="text-brand-purple dark:text-brand-gold-accent font-black">{current.location}</span>
                 </p>
               </div>
             </div>
@@ -161,14 +161,14 @@ export default function TestimonialsSection() {
               key={idx}
               id={`testimonial-indicator-dot-${idx}`}
               onClick={() => handleDotClick(idx)}
-              className="py-2 cursor-pointer focus:outline-none focus:ring-2 focus:ring-brand-purple rounded"
+              className="py-2 cursor-pointer focus:outline-none focus:ring-2 focus:ring-brand-purple dark:focus:ring-brand-gold-accent rounded"
               aria-label={`Ir para depoimento ${idx + 1}`}
             >
               <div 
                 className={`h-2 text-center rounded-full transition-all duration-300 ${
                   activeIndex === idx 
-                    ? "w-8 bg-brand-purple" 
-                    : "w-2.5 bg-brand-border hover:bg-brand-gray/50"
+                    ? "w-8 bg-brand-purple dark:bg-brand-gold-accent" 
+                    : "w-2.5 bg-brand-border dark:bg-white/20 hover:bg-brand-gray/50 dark:hover:bg-white/40"
                 }`}
               />
             </button>
@@ -180,7 +180,7 @@ export default function TestimonialsSection() {
           <button
             onClick={prevTestimonial}
             id="testimonial-btn-prev"
-            className="w-10 h-10 border border-brand-border rounded-full bg-brand-card hover:bg-brand-purple/5 hover:border-brand-purple text-brand-purple flex items-center justify-center active:scale-90 transition-all duration-200 cursor-pointer shadow-xs focus:outline-none focus:ring-2 focus:ring-brand-purple"
+            className="w-10 h-10 border border-brand-border dark:border-white/25 rounded-full bg-brand-card hover:bg-brand-purple/5 hover:border-brand-purple text-brand-purple dark:text-brand-gold-accent flex items-center justify-center active:scale-90 transition-all duration-200 cursor-pointer shadow-xs focus:outline-none focus:ring-2 focus:ring-brand-purple dark:focus:ring-brand-gold-accent dark:hover:bg-brand-gold-accent/15 dark:hover:border-brand-gold-accent"
             aria-label="Depoimento Anterior"
           >
             <ChevronLeft size={18} />
@@ -189,7 +189,7 @@ export default function TestimonialsSection() {
           <button
             onClick={nextTestimonial}
             id="testimonial-btn-next"
-            className="w-10 h-10 border border-brand-border rounded-full bg-brand-card hover:bg-brand-purple/5 hover:border-brand-purple text-brand-purple flex items-center justify-center active:scale-90 transition-all duration-200 cursor-pointer shadow-xs focus:outline-none focus:ring-2 focus:ring-brand-purple"
+            className="w-10 h-10 border border-brand-border dark:border-white/25 rounded-full bg-brand-card hover:bg-brand-purple/5 hover:border-brand-purple text-brand-purple dark:text-brand-gold-accent flex items-center justify-center active:scale-90 transition-all duration-200 cursor-pointer shadow-xs focus:outline-none focus:ring-2 focus:ring-brand-purple dark:focus:ring-brand-gold-accent dark:hover:bg-brand-gold-accent/15 dark:hover:border-brand-gold-accent"
             aria-label="Próximo Depoimento"
           >
             <ChevronRight size={18} />

@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
 @import "tailwindcss";
+@variant dark (&:where(.dark, .dark *));
 
 @theme {
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
@@ -24,9 +25,18 @@
     font-family: var(--font-sans);
     background-color: var(--color-brand-bg);
     color: var(--color-brand-dark);
+    transition: background-color 0.25s ease, color 0.25s ease;
   }
+  
   section[id], div[id] {
-    scroll-margin-top: 95px;
+    scroll-margin-top: 135px;
+  }
+
+  /* Extreme keyboard accessibility focus states */
+  *:focus-visible {
+    outline: 4px solid #C9A14A !important;
+    outline-offset: 3px !important;
+    box-shadow: 0 0 0 6px rgb(18 8 34 / 25%) !important;
   }
 }
 
@@ -34,4 +44,199 @@
 .transition-all-300 {
   transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
 }
+
+/* ----------------------------------------------------
+   DARK THEME OVERRIDES
+   ---------------------------------------------------- */
+.dark,
+.dark * {
+  --color-brand-bg: #120822 !important;
+  --color-brand-card: #1a0e30 !important;
+  --color-brand-card-hover: #231441 !important;
+  --color-brand-dark: #F8F6F2 !important;
+  --color-brand-gray: #D5CEDC !important;
+  --color-brand-border: rgba(255, 255, 255, 0.1) !important;
+  --color-brand-border-purple: rgba(180, 160, 220, 0.3) !important;
+}
+
+.dark body {
+  background-color: #120822 !important;
+  color: #F8F6F2 !important;
+}
+
+.dark .bg-brand-bg {
+  background-color: #120822 !important;
+}
+
+.dark .bg-brand-card {
+  background-color: #1a0e30 !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+.dark .bg-brand-card-hover:hover,
+.dark .bg-brand-card:hover {
+  background-color: #231441 !important;
+  border-color: #C9A14A !important;
+}
+
+.dark .text-brand-dark {
+  color: #F8F6F2 !important;
+}
+
+.dark .text-brand-gray {
+  color: #D5CEDC !important;
+}
+
+.dark .border-brand-border {
+  border-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+/* ----------------------------------------------------
+   HIGH CONTRAST WCAG AAA MODE OVERRIDES (REWRITTEN)
+   ---------------------------------------------------- */
+.high-contrast-mode,
+.high-contrast-mode * {
+  /* Redefine all brand theme colors to high contrast defaults (black/white/yellow) */
+  --color-brand-purple: #FFFF00 !important;
+  --color-brand-purple-light: #FFFF00 !important;
+  --color-brand-gold: #FFFF00 !important;
+  --color-brand-gold-accent: #FFFF00 !important;
+  --color-brand-bg: #000000 !important;
+  --color-brand-card: #000000 !important;
+  --color-brand-card-hover: #121212 !important;
+  --color-brand-border: #FFFFFF !important;
+  --color-brand-border-purple: #FFFFFF !important;
+  --color-brand-dark: #FFFFFF !important;
+  --color-brand-gray: #FFFFFF !important;
+
+  box-shadow: none !important;
+  text-shadow: none !important;
+  background-image: none !important; /* Disables all absolute background gradients/transparencies */
+  transition: none !important;
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+}
+
+.high-contrast-mode html,
+.high-contrast-mode body {
+  background-color: #000000 !important;
+  color: #FFFFFF !important;
+}
+
+/* Solid visual layouts with stark contrast boundaries */
+.high-contrast-mode header,
+.high-contrast-mode footer,
+.high-contrast-mode section,
+.high-contrast-mode form,
+.high-contrast-mode dialog,
+.high-contrast-mode [role="dialog"],
+.high-contrast-mode [role="region"],
+.high-contrast-mode [role="complementary"],
+.high-contrast-mode .bg-brand-card,
+.high-contrast-mode .bg-white,
+.high-contrast-mode #top-accessibility-bar {
+  background-color: #000000 !important;
+  color: #FFFFFF !important;
+  border: 2px solid #FFFFFF !important;
+}
+
+/* Force high contrast interactive buttons and links */
+.high-contrast-mode a,
+.high-contrast-mode button,
+.high-contrast-mode [role="button"] {
+  background-color: #000000 !important;
+  color: #FFFF00 !important;
+  border: 2px solid #FFFFFF !important;
+  font-weight: 800 !important;
+  text-decoration: underline !important;
+}
+
+.high-contrast-mode a:hover,
+.high-contrast-mode button:hover,
+.high-contrast-mode [role="button"]:hover {
+  background-color: #FFFF00 !important;
+  color: #000000 !important;
+  border-color: #FFFF00 !important;
+  text-decoration: underline !important;
+}
+
+/* Ensure children inside active hover links or buttons also turn black to contrast on yellow */
+.high-contrast-mode a:hover *,
+.high-contrast-mode button:hover * {
+  color: #000000 !important;
+  stroke: #000000 !important;
+}
+
+/* Inputs, Textareas, Select Dropdowns */
+.high-contrast-mode input,
+.high-contrast-mode select,
+.high-contrast-mode textarea {
+  background-color: #000000 !important;
+  color: #FFFFFF !important;
+  border: 2px solid #FFFFFF !important;
+  border-radius: 4px !important;
+  padding-left: 8px !important;
+  padding-right: 8px !important;
+}
+
+.high-contrast-mode select option {
+  background-color: #000000 !important;
+  color: #FFFFFF !important;
+}
+
+/* Stark Accessible Slider Styles */
+.high-contrast-mode input[type="range"] {
+  background-color: #000000 !important;
+  border: 2px solid #FFFFFF !important;
+  accent-color: #FFFF00 !important;
+  height: 12px !important;
+  border-radius: 6px !important;
+}
+
+.high-contrast-mode input[type="range"]::-webkit-slider-runnable-track {
+  background-color: #000000 !important;
+}
+
+.high-contrast-mode input[type="range"]::-webkit-slider-thumb {
+  background-color: #FFFF00 !important;
+  border: 2px solid #FFFFFF !important;
+  height: 20px !important;
+  width: 20px !important;
+  border-radius: 9999px !important;
+}
+
+/* SVG icon force rules */
+.high-contrast-mode svg {
+  stroke: currentColor !important;
+  fill: none !important;
+}
+
+/* Extreme focus state on high-contrast-mode */
+.high-contrast-mode *:focus-visible {
+  outline: 5px solid #FFFF00 !important;
+  outline-offset: 4px !important;
+}
+
+/* ----------------------------------------------------
+   OPENDYSLEXIC COGNITIVE ACCESSIBILITY LAYER
+   ---------------------------------------------------- */
+.dyslexia-mode * {
+  font-family: "Comic Sans MS", "Arial Rounded MT Bold", sans-serif !important;
+  letter-spacing: 0.12em !important;
+  word-spacing: 0.16em !important;
+  line-height: 1.625 !important;
+}
+
+/* ----------------------------------------------------
+   UTILITIES & ACCESSIBILITY HELPER CLASSES
+   ---------------------------------------------------- */
+/* Esconde visualmente as barras de rolagem horizontal mantendo a navegabilidade por deslizar tátil (mobile) */
+.no-scrollbar::-webkit-scrollbar {
+  display: none !important;
+}
+.no-scrollbar {
+  -ms-overflow-style: none !important;  /* IE and Edge */
+  scrollbar-width: none !important;  /* Firefox */
+}
+
 

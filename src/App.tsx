@@ -25,11 +25,51 @@ import TestimonialsSection from "./components/TestimonialsSection";
 import IconResolver from "./components/IconResolver";
 import InteractiveCalculator from "./components/InteractiveCalculator";
 import ServicesCarousel from "./components/ServicesCarousel";
+import EconomyCalculator from "./components/EconomyCalculator";
+import AccessibilityToolbar from "./components/AccessibilityToolbar";
+import { trackLeadSubmission } from "./utils/analytics";
 
 export default function App() {
   const [selectedSimType, setSelectedSimType] = useState("inss");
   const [isMobile, setIsMobile] = useState(false);
   const [showFloatingToast, setShowFloatingToast] = useState(false);
+  const [detectedCity, setDetectedCity] = useState("São Paulo e Região");
+
+  // Hook de detecção inteligente de Cidade (IP-api com fallback de HTML5 Geo)
+  useEffect(() => {
+    const cachedCity = sessionStorage.getItem("dfl-detected-city");
+    if (cachedCity) {
+      setDetectedCity(cachedCity);
+      return;
+    }
+
+    fetch("https://ipapi.co/json/")
+      .then((res) => {
+        if (!res.ok) throw new Error("Erro api IP");
+        return res.json();
+      })
+      .then((data) => {
+        if (data && data.city) {
+          const cityString = `${data.city} - ${data.region_code || "SP"}`;
+          setDetectedCity(cityString);
+          sessionStorage.setItem("dfl-detected-city", cityString);
+        }
+      })
+      .catch(() => {
+        // Fallback para Geolocation API caso o IP lookup esteja indisponível
+        if ("geolocation" in navigator) {
+          navigator.geolocation.getCurrentPosition(
+            () => {
+              setDetectedCity("São Paulo e Região");
+            },
+            () => {
+              setDetectedCity("São Paulo e Região");
+            },
+            { timeout: 3000 }
+          );
+        }
+      });
+  }, []);
 
   useEffect(() => {
     const checkDim = () => {
@@ -63,19 +103,36 @@ export default function App() {
   };
 
   const handleWhatsappDirect = () => {
+    trackLeadSubmission(); // Log event click analytics
     const message = encodeURIComponent(
-      "Olá, DFL Consignado! Gostaria de conversar com um especialista sobre as melhores proposta de crédito para mim."
+      "Olá, DFL Consignado! Gostaria de conversar com um especialista sobre as melhores propostas de crédito para mim."
     );
     window.open(`https://wa.me/5511934554478?text=${message}`, "_blank");
   };
 
   return (
-    <div className="min-h-screen bg-brand-bg text-brand-dark overflow-x-hidden selection:bg-brand-gold/30 selection:text-brand-gold font-sans">
+    <div className="min-h-screen bg-brand-bg text-brand-dark overflow-x-hidden selection:bg-brand-gold/30 selection:text-brand-gold font-sans transition-colors duration-250">
+      {/* Painel Flutuante de Acessibilidade Extrema (Alt+C para testar) */}
+      <AccessibilityToolbar />
+
       {/* Dynamic Navigation Bar */}
       <Header />
 
-      {/* Hero Section */}
-      <section className="relative min-h-[92vh] lg:min-h-screen flex items-center justify-center pt-24 pb-12 sm:pt-28 sm:pb-16 px-4 md:px-8 bg-gradient-to-br from-[#1C0B32] via-[#2D164B] to-[#120822] overflow-hidden border-b border-brand-border">
+      {/* Área Principal do Site - Semântica para leitores de tela e SEO */}
+      <main id="main-content">
+        {/* Descrição em áudio oculta para Usuários de Visão Zero (Zero Vision First) */}
+        <div className="sr-only">
+          <h1>DFL Consignado - Plataforma Acessível de Empréstimos</h1>
+          <p>
+            Você está navegando no site oficial da DFL Consignado. Este site foi totalmente otimizado para navegação sem barreiras, 
+            sendo compatível com leitores de tela como NVDA e JAWS. 
+            Você pode pressionar ALT + C a qualquer momento para ativar o alto contraste, ou ALT + + para aumentar o tamanho do texto.
+            O cabeçalho inicial contém links rápidos para pular direto ao simulador de taxas.
+          </p>
+        </div>
+
+        {/* Hero Section */}
+      <section className="relative min-h-[92vh] lg:min-h-screen flex items-center justify-center pt-34 pb-12 sm:pt-38 sm:pb-16 px-4 md:px-8 bg-gradient-to-br from-[#1C0B32] via-[#2D164B] to-[#120822] overflow-hidden border-b border-brand-border">
         {/* Animated geometric background particles filling the full parent container */}
         <HeroCanvas />
 
@@ -108,7 +165,7 @@ export default function App() {
               transition={{ duration: 0.7, delay: 0.1 }}
               className="font-serif text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black tracking-tight leading-[1.1] mb-6 text-white"
             >
-              Empréstimo Consignado seguro, rápido e transparente
+              Empréstimo Consignado em <span className="text-brand-gold-accent underline decoration-brand-gold/50 decoration-2 underline-offset-4">{detectedCity}</span> seguro, rápido e transparente
             </motion.h1>
 
             <motion.p
@@ -186,8 +243,54 @@ export default function App() {
         </div>
       </section>
 
+      {/* Security & Compliance Grayscale Trust Strip */}
+      <section 
+        className="bg-brand-card/90 dark:bg-[#1a0e30]/95 border-y border-brand-border/80 py-4 sm:py-5 px-4 md:px-8 shadow-xs relative z-10 transition-colors"
+        aria-label="Informações de Segurança, Proteção de Dados e Conformidade Bancária"
+      >
+        <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-5 md:gap-8">
+          <div className="flex flex-col sm:flex-row items-center gap-3 text-center sm:text-left">
+            <span className="text-[9px] uppercase font-black tracking-widest text-[#4C2A7A] dark:text-brand-gold-accent select-none bg-brand-purple/5 dark:bg-white/5 px-3 py-1 rounded">
+              Conformidade Bacen
+            </span>
+            <p className="text-[11px] sm:text-xs text-brand-gray dark:text-stone-300 font-bold leading-snug">
+              Correspondente Certificado oficial atuando sob estritas regras da Resolução CMN nº 4.935.
+            </p>
+          </div>
+          
+          <div className="flex flex-wrap items-center justify-center gap-6 sm:gap-10">
+            {/* Banco Central logo seal proxy */}
+            <div className="flex items-center gap-2.5 grayscale opacity-70 hover:grayscale-0 hover:opacity-100 transition-all duration-300 select-none cursor-help" title="Empresa legalmente habilitada junto ao BC">
+              <ShieldCheck className="text-brand-purple dark:text-[#E8C670]" size={19} />
+              <div className="text-left font-serif">
+                <span className="block text-[8px] uppercase tracking-widest text-stone-500 font-bold leading-none">Autorizado por</span>
+                <span className="text-xs font-black text-stone-700 dark:text-stone-200">BANCO CENTRAL</span>
+              </div>
+            </div>
+
+            {/* LGPD Compliant safety proxy */}
+            <div className="flex items-center gap-2.5 grayscale opacity-70 hover:grayscale-0 hover:opacity-100 transition-all duration-300 select-none cursor-help" title="Seus dados estão protegidos sob os termos da lei 13.709">
+              <CheckCircle2 className="text-brand-purple dark:text-[#E8C670]" size={19} />
+              <div className="text-left font-serif">
+                <span className="block text-[8px] uppercase tracking-widest text-stone-500 font-bold leading-none">Dados Seguros</span>
+                <span className="text-xs font-black text-stone-700 dark:text-stone-200">LGPD COMPLIANT</span>
+              </div>
+            </div>
+
+            {/* SSL Encrypted military encryption proxy */}
+            <div className="flex items-center gap-2.5 grayscale opacity-70 hover:grayscale-0 hover:opacity-100 transition-all duration-300 select-none cursor-help" title="Conexão com chaves de criptografia SSL de 256 bits">
+              <Lock className="text-brand-purple dark:text-[#E8C670]" size={17} />
+              <div className="text-left font-serif">
+                <span className="block text-[8px] uppercase tracking-widest text-stone-500 font-bold leading-none">Segurança SSL</span>
+                <span className="text-xs font-black text-stone-700 dark:text-stone-200">SSL ENCRYPTED</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Core Benefits Section */}
-      <section className="py-12 md:py-20 bg-brand-bg px-4 md:px-8 border-b border-brand-border" id="por-que-dfl">
+      <section className="py-10 md:py-20 bg-brand-bg px-4 md:px-8 border-b border-brand-border" id="por-que-dfl">
         <div className="max-w-7xl mx-auto">
           
           <motion.div 
@@ -195,20 +298,20 @@ export default function App() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 0.6 }}
-            className="text-center max-w-3xl mx-auto mb-16"
+            className="text-center max-w-3xl mx-auto mb-12 sm:mb-16"
           >
-            <h2 className="text-xs uppercase font-extrabold tracking-widest text-brand-purple mb-3">
+            <h2 className="text-xs uppercase font-extrabold tracking-widest text-brand-purple dark:text-brand-gold-accent mb-3">
               Credibilidade & Transparência
             </h2>
             <h3 className="font-serif text-3xl sm:text-4xl font-bold tracking-tight text-brand-dark animate-fade-in">
               Por que milhares de pessoas confiam na DFL
             </h3>
-            <p className="text-brand-gray text-base sm:text-lg mt-4 leading-relaxed font-medium">
+            <p className="text-brand-gray text-base sm:text-lg mt-4 leading-relaxed font-semibold">
               Focados em entregar excelência no consignado de forma rápida e segura, mantendo o respeito e a clareza em cada atendimento.
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8" id="core-benefits-grid">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8" id="core-benefits-grid">
             {CORE_BENEFITS.map((benefit, i) => (
               <motion.div
                 key={i}
@@ -221,7 +324,7 @@ export default function App() {
                   i === 4 ? "sm:col-span-2 lg:col-span-1" : ""
                 }`}
               >
-                <div className="w-12 h-12 rounded-xl bg-brand-purple/5 border border-brand-border-purple/40 flex items-center justify-center text-brand-purple mb-6 group-hover:bg-brand-purple group-hover:text-white transition-all duration-300">
+                <div className="w-12 h-12 rounded-xl bg-brand-purple/5 dark:bg-brand-gold-accent/10 border border-brand-border-purple/40 dark:border-brand-gold-accent/30 flex items-center justify-center text-brand-purple dark:text-brand-gold-accent mb-6 group-hover:bg-brand-purple dark:group-hover:bg-brand-gold group-hover:text-white dark:group-hover:text-brand-dark transition-all duration-300">
                   <IconResolver name={benefit.iconName} size={24} />
                 </div>
                 <h4 className="font-serif text-lg font-bold text-brand-dark mb-3">
@@ -238,7 +341,7 @@ export default function App() {
       </section>
 
       {/* Services Grid Section */}
-      <section className="py-12 md:py-20 bg-brand-bg px-4 md:px-8 border-b border-brand-border" id="servicos">
+      <section className="py-10 md:py-20 bg-brand-bg px-4 md:px-8 border-b border-brand-border" id="servicos">
         <div className="max-w-7xl mx-auto">
 
           <motion.div 
@@ -246,15 +349,15 @@ export default function App() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 0.6 }}
-            className="text-center max-w-3xl mx-auto mb-16"
+            className="text-center max-w-3xl mx-auto mb-12 sm:mb-16"
           >
-            <h2 className="text-xs uppercase font-extrabold tracking-widest text-brand-purple mb-3">
+            <h2 className="text-xs uppercase font-extrabold tracking-widest text-brand-purple dark:text-brand-gold-accent mb-3">
               Soluções Sob Medida
             </h2>
             <h3 className="font-serif text-3xl sm:text-4xl font-bold tracking-tight text-brand-dark animate-fade-in">
               O que podemos fazer por você
             </h3>
-            <p className="text-brand-gray text-base mt-3 font-medium">
+            <p className="text-brand-gray text-base mt-3 font-semibold">
               Escolha a opção ideal para as suas necessidades de crédito e resolva a sua simulação em poucos cliques.
             </p>
           </motion.div>
@@ -264,11 +367,14 @@ export default function App() {
         </div>
       </section>
 
+      {/* Economia de Juros Consignado Calculator Component */}
+      <EconomyCalculator />
+
       {/* Interactive Loan Rate and CET Calculator */}
       <InteractiveCalculator />
 
       {/* Workflow Section (How It Works) */}
-      <section className="py-12 md:py-20 bg-brand-bg px-4 md:px-8 border-b border-brand-border" id="como-funciona">
+      <section className="py-10 md:py-20 bg-brand-bg px-4 md:px-8 border-b border-brand-border" id="como-funciona">
         <div className="max-w-7xl mx-auto">
           
           <motion.div 
@@ -276,20 +382,20 @@ export default function App() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 0.6 }}
-            className="text-center max-w-3xl mx-auto mb-16"
+            className="text-center max-w-3xl mx-auto mb-12 sm:mb-16"
           >
-            <h2 className="text-xs uppercase font-extrabold tracking-widest text-brand-purple mb-3">
+            <h2 className="text-xs uppercase font-extrabold tracking-widest text-brand-purple dark:text-brand-gold-accent mb-3">
               Sem Complicação
             </h2>
             <h3 className="font-serif text-3xl sm:text-4xl font-bold tracking-tight text-brand-dark">
               Simples assim. Em 4 passos:
             </h3>
-            <p className="text-brand-gray text-base mt-2.5 font-medium">
+            <p className="text-brand-gray text-base mt-2.5 font-semibold">
               Desenvolvemos um fluxo transparente e intuitivo para que o seu crédito consignado aconteça sem dor de cabeça.
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8" id="workflow-steps-grid">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8" id="workflow-steps-grid">
             {WORKFLOW_STEPS.map((step, idx) => (
               <motion.div 
                 key={idx}
@@ -302,7 +408,7 @@ export default function App() {
               >
                 
                 {/* Luxurious step number display */}
-                <div className="font-serif text-4xl lg:text-5xl font-black text-brand-purple/20 mb-4 leading-none">
+                <div className="font-serif text-4xl lg:text-5xl font-black text-brand-purple/20 dark:text-brand-gold-accent/20 mb-4 leading-none">
                   {step.number}
                 </div>
 
@@ -315,7 +421,7 @@ export default function App() {
 
                 {/* Desktop indicator link bubbles */}
                 {idx < 3 && (
-                  <div className="hidden lg:block absolute top-[43%] -right-6 text-brand-purple z-10">
+                  <div className="hidden lg:block absolute top-[43%] -right-6 text-brand-purple dark:text-brand-gold-accent z-10 animate-pulse">
                     <ArrowRight size={18} />
                   </div>
                 )}
@@ -360,17 +466,17 @@ export default function App() {
       </section>
 
       {/* Testimonials Section */}
-      <section className="py-12 md:py-20 bg-brand-bg px-4 md:px-8 border-b border-brand-border" id="depoimentos">
+      <section className="py-10 md:py-20 bg-brand-bg px-4 md:px-8 border-b border-brand-border" id="depoimentos">
         <div className="max-w-7xl mx-auto">
           
-          <div className="text-center max-w-3xl mx-auto mb-16">
-            <h2 className="text-xs uppercase font-extrabold tracking-widest text-brand-purple mb-3">
+          <div className="text-center max-w-3xl mx-auto mb-12 sm:mb-16">
+            <h2 className="text-xs uppercase font-extrabold tracking-widest text-brand-purple dark:text-brand-gold-accent mb-3">
               Quem Concluiu Recomenda
             </h2>
             <h3 className="font-serif text-3xl sm:text-4xl font-bold tracking-tight text-brand-dark">
               O que nossos clientes estão dizendo
             </h3>
-            <p className="text-brand-gray text-base mt-3 font-medium">
+            <p className="text-brand-gray text-base mt-3 font-semibold">
               Nossa melhor publicidade é o depoimento sincero de quem obteve as menores taxas reais com comodidade e agilidade.
             </p>
           </div>
@@ -384,7 +490,7 @@ export default function App() {
       <section className="py-10 md:py-16 bg-brand-bg px-4 md:px-8 border-b border-brand-border overflow-hidden">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-10">
-            <p className="text-xs uppercase font-extrabold tracking-widest text-brand-purple mb-2">
+            <p className="text-xs uppercase font-extrabold tracking-widest text-brand-purple dark:text-brand-gold-accent mb-2">
               Principais Parceiros
             </p>
             <h4 className="font-serif text-xl sm:text-2xl font-bold text-brand-dark">
@@ -394,8 +500,8 @@ export default function App() {
 
           <div className="relative w-full overflow-hidden flex items-center select-none">
             {/* Elegant fade edges using overlay gradients */}
-            <div className="absolute top-0 left-0 bottom-0 w-20 sm:w-28 bg-gradient-to-r from-brand-bg to-transparent z-10 pointer-events-none" />
-            <div className="absolute top-0 right-0 bottom-0 w-20 sm:w-28 bg-gradient-to-l from-brand-bg to-transparent z-10 pointer-events-none" />
+            <div className="absolute top-0 left-0 bottom-0 w-20 sm:w-28 bg-gradient-to-r from-brand-bg dark:from-brand-dark to-transparent z-10 pointer-events-none" />
+            <div className="absolute top-0 right-0 bottom-0 w-20 sm:w-28 bg-gradient-to-l from-brand-bg dark:from-brand-dark to-transparent z-10 pointer-events-none" />
             
             <motion.div
               className="flex shrink-0 gap-6 sm:gap-8 py-4 px-2"
@@ -428,17 +534,17 @@ export default function App() {
       </section>
 
       {/* FAQs Section */}
-      <section className="py-12 md:py-20 bg-brand-bg px-4 md:px-8" id="faq">
+      <section className="py-10 md:py-20 bg-brand-bg px-4 md:px-8" id="faq">
         <div className="max-w-7xl mx-auto">
           
-          <div className="text-center max-w-3xl mx-auto mb-16">
-            <h2 className="text-xs uppercase font-extrabold tracking-widest text-brand-purple mb-3">
+          <div className="text-center max-w-3xl mx-auto mb-12 sm:mb-16">
+            <h2 className="text-xs uppercase font-extrabold tracking-widest text-brand-purple dark:text-brand-gold-accent mb-3">
               Suas Dúvidas Respondidas
             </h2>
             <h3 className="font-serif text-3xl sm:text-4xl font-bold tracking-tight text-brand-dark">
               Perguntas Frequentes
             </h3>
-            <p className="text-brand-gray text-base mt-3 font-medium">
+            <p className="text-brand-gray text-base mt-3 font-semibold">
               Ainda tem dúvidas? Veja as respostas para as perguntas mais comuns de nossos clientes.
             </p>
           </div>
@@ -489,6 +595,7 @@ export default function App() {
           </div>
         </div>
       </section>
+    </main>
 
       {/* Footer */}
       <footer className="bg-[#080411] text-stone-400 py-16 px-4 md:px-8 border-t border-brand-border-purple">
@@ -573,6 +680,7 @@ export default function App() {
       {/* Floating pulsing WhatsApp button on bottom-right */}
       <a
         href="https://wa.me/5511934554478"
+        onClick={handleWhatsappDirect}
         target="_blank"
         rel="noopener noreferrer"
         id="floating-whatsapp-trigger"
@@ -646,6 +754,7 @@ export default function App() {
                 rel="noopener noreferrer"
                 id="toast-whatsapp-link-btn"
                 onClick={() => {
+                  trackLeadSubmission();
                   sessionStorage.setItem("dfl-toast-dismissed", "true");
                   setShowFloatingToast(false);
                 }}

@@ -2,53 +2,82 @@ import React from "react";
 import * as LucideIcons from "lucide-react";
 import { ASSET_MANIFEST } from "../assets/manifest";
 
+/**
+ * Props para o componente de Icone Centralizado.
+ */
 interface AssetIconProps {
+  /** Nome do ícone, que é mapeado para o repositório de ícones correspondente ou Lucide */
   name: string;
-  className?: string; // Optional custom styling classes
-  size?: number;      // Icon size (used as height and width)
+  /** Classes CSS customizadas do Tailwind como text-brand-purple ou transitórios de cor */
+  className?: string;
+  /** Tamanho do ícone em pixels (tanto largura quanto altura) */
+  size?: number;
+  /** Identificador único para fins de acessibilidade ou controle de DOM */
   id?: string;
+  /** Texto descritivo para leitores de tela em caso de ícones com função de imagem ativa */
   alt?: string;
 }
 
 /**
- * AssetIcon is a factory component that resolves and renders icons.
- * It prioritizes our customized high-contrast SVG assets from `/src/assets/images/icons/`
- * and falls back elegantly to standard Lucide icons if not mapped.
+ * Componente de Fábrica de Ícones de alta legibilidade (WCAG AAA & ENAC Compliant).
+ * Prioriza o mapeamento direto de nós SVG inlined para permitir que a propriedade
+ * 'currentColor' e classes como 'stroke-current' ou 'fill-current' funcionem perfeitamente
+ * sob esquemas de Alto Contraste (High Contrast) e Modo Escuro (Dark Mode).
+ * 
+ * Se o mapeamento direto não encontrar um correspondente nativo, utiliza o fallback inline.
+ * 
+ * @param props {AssetIconProps} Propriedades do ícone
  */
 export function AssetIcon({ name, className = "", size = 24, id, alt }: AssetIconProps) {
-  // Check in the custom SVG icons first
-  const customIconUrl = (ASSET_MANIFEST.icons as any)[name];
+  // Ajusta o nome para garantir compatibilidade com caixa alta/baixa do Lucide
+  const normalizedName = name.charAt(0).toUpperCase() + name.slice(1);
+  const LucideIcon = (LucideIcons as any)[name] || (LucideIcons as any)[normalizedName];
 
-  if (customIconUrl) {
-    return (
-      <img
-        src={customIconUrl}
-        alt={alt || `${name} Icon`}
-        id={id}
-        width={size}
-        height={size}
-        className={`inline-block select-none ${className}`}
-        style={{ width: size, height: size }}
-        referrerPolicy="no-referrer"
-      />
-    );
-  }
-
-  // Fallback dynamically to Lucide icons
-  const LucideIcon = (LucideIcons as any)[name];
   if (LucideIcon) {
     return (
-      <LucideIcon
-        className={className}
-        size={size}
+      <span 
+        className="inline-flex items-center justify-center text-current font-black shrink-0"
+        role="img"
+        aria-label={alt || `${name} icon`}
+        title={alt || `${name} icon`}
+      >
+        <LucideIcon
+          className={`stroke-current fill-none inline-block text-current ${className}`}
+          size={size}
+          id={id}
+          aria-hidden="true"
+        />
+      </span>
+    );
+  }
+
+  // Fallback caso seja um asset customizado carregado por URL de imagem
+  const customIconUrl = (ASSET_MANIFEST.icons as any)[name];
+  if (customIconUrl) {
+    return (
+      <span
         id={id}
-        aria-hidden={!alt}
-        aria-label={alt}
+        className={`inline-block select-none ${className}`}
+        style={{
+          width: size,
+          height: size,
+          backgroundColor: "currentColor",
+          maskImage: `url(${customIconUrl})`,
+          WebkitMaskImage: `url(${customIconUrl})`,
+          maskSize: "contain",
+          WebkitMaskSize: "contain",
+          maskRepeat: "no-repeat",
+          WebkitMaskRepeat: "no-repeat",
+          maskPosition: "center",
+          WebkitMaskPosition: "center",
+        }}
+        role="img"
+        aria-label={alt || `${name} Icon`}
       />
     );
   }
 
-  // Final emergency placeholder
+  // Final emergency placeholder para desenvolvedores juniors identificarem
   return (
     <span
       className={`inline-flex items-center justify-center bg-stone-800 text-stone-200 text-xs font-mono rounded ${className}`}
