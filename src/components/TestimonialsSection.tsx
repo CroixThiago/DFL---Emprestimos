@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { TESTIMONIALS } from "../data";
 import { Star, Quote, ChevronLeft, ChevronRight } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
+import { AssetTestimonial } from "./AssetFactory";
 
 export default function TestimonialsSection() {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -131,13 +132,11 @@ export default function TestimonialsSection() {
 
             {/* Author layout block */}
             <div className="flex items-center gap-4 border-t border-brand-border pt-4 sm:pt-6">
-              <img
-                src={current.avatarUrl}
-                alt={current.name}
-                referrerPolicy="no-referrer"
-                loading="lazy"
+              <AssetTestimonial
+                testimonialId={current.id}
+                name={current.name}
                 id={`testimonial-avatar-${current.id}`}
-                className="w-11 h-11 sm:w-14 sm:h-14 rounded-full object-cover border-2 border-brand-purple/20 bg-brand-bg shrink-0 shadow-sm"
+                className="w-11 h-11 sm:w-14 sm:h-14 border-2 border-brand-purple/20 bg-brand-bg shrink-0 shadow-sm"
               />
               <div className="text-left">
                 <h4 className="font-serif text-[15px] sm:text-base font-extrabold text-brand-dark">

@@ -6,7 +6,7 @@
     "location": "Penha, São Paulo / SP",
     "comment": "Fui muito bem atendida, com muito carinho e paciência pelo WhatsApp. Me explicaram tudo sobre as taxas sem palavras difíceis e o dinheiro caiu na minha conta no dia seguinte. Estava com medo de golpes na internet, mas a DFL é muito segura e séria!",
     "rating": 5,
-    "avatarUrl": "/images/testimonials/maria.svg"
+    "avatarUrl": "/images/testimonials/maria.png"
   },
   {
     "id": "2",
@@ -15,7 +15,7 @@
     "location": "São Bernardo do Campo / SP",
     "comment": "O que eu mais gostei foi a rapidez e o respeito. O consultor da DFL fez a simulação comigo passo a passo, me mostrou as taxas reais das parcelas e tudo foi feito pelo meu celular mesmo, sem precisar ir ao banco pegar filas. Nota 10!",
     "rating": 5,
-    "avatarUrl": "/images/testimonials/sandra.svg"
+    "avatarUrl": "/images/testimonials/sandra.png"
   },
   {
     "id": "3",
@@ -24,7 +24,7 @@
     "location": "Osasco / SP",
     "comment": "Fiz o refinanciamento do meu consignado e reduzi bastante o valor da parcela mensal, sobrando um troco ótimo que usei para reformar a cozinha de casa. Atendimento excelente, sério e transparente.",
     "rating": 5,
-    "avatarUrl": "/images/testimonials/carlos.svg"
+    "avatarUrl": "/images/testimonials/carlos.png"
   },
   {
     "id": "4",
@@ -33,6 +33,6 @@
     "location": "Guarulhos / SP",
     "comment": "Procurava uma empresa segura de verdade perto de São Paulo. A DFL me passou muita confiança, confirmaram todos os dados direto com as maiores instituições parceiras do governo e liberaram o crédito com rapidez.",
     "rating": 5,
-    "avatarUrl": "/images/testimonials/joao.svg"
+    "avatarUrl": "/images/testimonials/joao.png"
   }
 ]

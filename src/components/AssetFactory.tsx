@@ -128,7 +128,7 @@ export function AssetTestimonial({ testimonialId, className = "", id, name = "Cl
 
   return (
     <img
-      src={avatarUrl || `/images/testimonials/maria.svg`}
+      src={avatarUrl || `/images/testimonials/maria.png`}
       alt={`Avatar de ${name}`}
       id={id}
       className={`object-cover rounded-full select-none ${className}`}

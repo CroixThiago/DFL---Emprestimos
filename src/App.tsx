@@ -28,6 +28,7 @@ import ServicesCarousel from "./components/ServicesCarousel";
 import EconomyCalculator from "./components/EconomyCalculator";
 import AccessibilityToolbar from "./components/AccessibilityToolbar";
 import { trackLeadSubmission } from "./utils/analytics";
+import { AssetPartner } from "./components/AssetFactory";
 
 export default function App() {
   const [selectedSimType, setSelectedSimType] = useState("inss");
@@ -519,12 +520,10 @@ export default function App() {
                   className="px-6 py-4 bg-brand-card hover:bg-[#4C2A7A]/5 border border-brand-border rounded-xl text-center transition-all duration-300 w-44 h-20 flex items-center justify-center opacity-85 hover:opacity-100 hover:scale-105 shadow-xs hover:border-brand-border-purple group cursor-pointer shrink-0"
                   title={p.name}
                 >
-                  <img
-                    src={p.logo}
-                    alt={p.name}
-                    referrerPolicy="no-referrer"
-                    loading="lazy"
+                  <AssetPartner
+                    partnerId={p.id}
                     className="max-h-10 max-w-full object-contain filter brightness-100 contrast-100 dark:brightness-110 duration-300"
+                    id={`partner-logo-${p.id}-${idx}`}
                   />
                 </div>
               ))}

@@ -22,10 +22,10 @@ import partnerBradesco from "./images/partners/bradesco.svg";
 import partnerSantander from "./images/partners/santander.svg";
 import partnerBmg from "./images/partners/bmg.svg";
 
-import testimonialMaria from "./images/testimonials/maria.svg";
-import testimonialSandra from "./images/testimonials/sandra.svg";
-import testimonialCarlos from "./images/testimonials/carlos.svg";
-import testimonialJoao from "./images/testimonials/joao.svg";
+import testimonialMaria from "./images/testimonials/maria.png";
+import testimonialSandra from "./images/testimonials/sandra.png";
+import testimonialCarlos from "./images/testimonials/carlos.png";
+import testimonialJoao from "./images/testimonials/joao.png";
 
 export const ASSET_MANIFEST = {
   logo: logo,
