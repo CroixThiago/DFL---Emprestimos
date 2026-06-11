@@ -51,7 +51,11 @@ export default function App() {
       })
       .then((data) => {
         if (data && data.city) {
-          const cityString = `${data.city} - ${data.region_code || "SP"}`;
+          // XSS Defense: Sanitize API external data before inserting into DOM state
+          const rawCity = String(data.city).replace(/[^a-zA-ZÀ-ÿ\s\-]/g, "").substring(0, 50);
+          const rawRegion = String(data.region_code || "SP").replace(/[^a-zA-Z]/g, "").substring(0, 5);
+          const cityString = `${rawCity} - ${rawRegion}`;
+          
           setDetectedCity(cityString);
           sessionStorage.setItem("dfl-detected-city", cityString);
         }

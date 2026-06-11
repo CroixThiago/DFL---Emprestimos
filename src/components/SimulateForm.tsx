@@ -99,6 +99,12 @@ export default function SimulateForm({ initialBenefitId = "inss" }: SimulateForm
   const [acceptTerms, setAcceptTerms] = useState(true); // Termo LGPD ativo
 
   /**
+   * Estado honeypot (texto):
+   * Campo invisível anti-spam (Prevenção de bot DoS/Abuso do WhatsApp).
+   */
+  const [honeypot, setHoneypot] = useState("");
+
+  /**
    * Estado formSubmitted (booleano):
    * Aciona a tela final de sucesso quando o formulário é enviado para o sistema.
    */
@@ -220,6 +226,13 @@ export default function SimulateForm({ initialBenefitId = "inss" }: SimulateForm
   // Envio final dos dados ao consultor oficial da DFL Consignado via WhatsApp
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // Honeypot defense: se preenchido, é um bot. Abortar silenciosamente.
+    if (honeypot.length > 0) {
+      setFormSubmitted(true); // Falsa sensação de sucesso para o bot
+      return;
+    }
+
     if (!fullName.trim()) {
       setValidationError("Por favor, informe seu nome completo.");
       return;
@@ -531,11 +544,14 @@ export default function SimulateForm({ initialBenefitId = "inss" }: SimulateForm
                   <input
                     type="text"
                     required
+                    maxLength={80}
                     id="input-fullname"
                     placeholder="Seu nome completo"
                     value={fullName}
                     onChange={(e) => {
-                      setFullName(e.target.value);
+                      // Basic sanitization: allow only letters and spaces to prevent basic injection
+                      const sanitized = e.target.value.replace(/[^a-zA-ZÀ-ÿ\s]/g, "");
+                      setFullName(sanitized);
                       if (validationError) setValidationError("");
                     }}
                     className="w-full pl-10 pr-4 py-3 sm:py-3.5 bg-white dark:bg-[#120822] border border-brand-border rounded-xl text-sm text-brand-dark font-medium placeholder-brand-gray/65 focus:outline-none focus:border-brand-purple focus:ring-1 focus:ring-brand-purple transition min-h-[44px]"
@@ -549,6 +565,7 @@ export default function SimulateForm({ initialBenefitId = "inss" }: SimulateForm
                   <input
                     type="tel"
                     required
+                    maxLength={15}
                     id="input-phone"
                     placeholder="Celular com WhatsApp: (XX) XXXXX-XXXX"
                     value={phone}
@@ -564,12 +581,27 @@ export default function SimulateForm({ initialBenefitId = "inss" }: SimulateForm
                   <input
                     type="tel"
                     required
+                    maxLength={14}
                     id="input-cpf"
                     placeholder="Seu número de CPF: XXX.XXX.XXX-XX"
                     value={cpf}
                     onChange={handleCpfChange}
                     className="w-full pl-10 pr-4 py-3 sm:py-3.5 bg-white dark:bg-[#120822] border border-brand-border rounded-xl text-sm text-brand-dark font-medium placeholder-brand-gray/65 focus:outline-none focus:border-brand-purple focus:ring-1 focus:ring-brand-purple transition min-h-[44px]"
                     aria-label="Informe os onze números do seu CPF de forma confidencial"
+                  />
+                </div>
+
+                {/* Honeypot anti-spam (invisível para humanos, atrai bots) */}
+                <div style={{ display: "none" }} aria-hidden="true">
+                  <label htmlFor="honey-field">Não preencha este campo se for humano</label>
+                  <input
+                    type="text"
+                    id="honey-field"
+                    name="honey-field"
+                    value={honeypot}
+                    onChange={(e) => setHoneypot(e.target.value)}
+                    tabIndex={-1}
+                    autoComplete="off"
                   />
                 </div>
 
